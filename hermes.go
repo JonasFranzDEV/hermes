@@ -9,6 +9,7 @@ import (
 	"github.com/jaytaylor/html2text"
 	"github.com/russross/blackfriday"
 	"encoding/json"
+	"strings"
 )
 
 // Hermes is an instance of the hermes email generator
@@ -204,5 +205,5 @@ func (h *Hermes) generateTemplate(email Email, tplt string) (string, error) {
 	}
 	var b bytes.Buffer
 	t.Execute(&b, Template{*h, email})
-	return b.String(), nil
+	return strings.Replace(b.String(), "application/json", "application/ld+json", 1), nil
 }

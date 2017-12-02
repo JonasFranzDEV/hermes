@@ -264,7 +264,7 @@ func (dt *Default) HTMLTemplate() string {
 </head>
 <body dir="{{.Hermes.TextDirection}}">
   {{if .Email.Body.LDJSON}}
-	<script type="application/ld+json">
+	<script type="application/json">
 		{{marshal .Email.Body.LDJSON}}
 	</script>
   {{end}}
