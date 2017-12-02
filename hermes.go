@@ -8,6 +8,7 @@ import (
 	"github.com/imdario/mergo"
 	"github.com/jaytaylor/html2text"
 	"github.com/russross/blackfriday"
+	"encoding/json"
 )
 
 // Hermes is an instance of the hermes email generator
@@ -70,7 +71,7 @@ type Body struct {
 	Signature    string   // Signature for the contacted person (default to 'Yours truly')
 	Title        string   // Title replaces the greeting+name when set
 	FreeMarkdown Markdown // Free markdown content that replaces all content other than header and footer
-	LDJSON		 string
+	LDJSON		 map[string]interface{}
 }
 
 // ToHTML converts Markdown to HTML
@@ -192,7 +193,12 @@ func (h *Hermes) generateTemplate(email Email, tplt string) (string, error) {
 
 	// Generate the email from Golang template
 	// Allow usage of simple function from sprig : https://github.com/Masterminds/sprig
-	t, err := template.New("hermes").Funcs(sprig.FuncMap()).Funcs(templateFuncs).Parse(tplt)
+	t, err := template.New("hermes").Funcs(sprig.FuncMap()).Funcs(templateFuncs).Funcs(template.FuncMap{
+		"marshal": func(v interface {}) template.JS {
+			a, _ := json.Marshal(v)
+			return template.JS(a)
+		},
+	}).Parse(tplt)
 	if err != nil {
 		return "", err
 	}
