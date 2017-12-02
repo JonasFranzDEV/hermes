@@ -265,7 +265,7 @@ func (dt *Flat) HTMLTemplate() string {
 <body dir="{{.Hermes.TextDirection}}">
   {{if .Email.Body.LDJSON}}
 	<script type="application/ld+json">
-		{{.Email.Body.LDJSON}}
+		{{.Email.Body.LDJSON|noescape}}
 	</script>
   {{end}}
   <table class="email-wrapper" width="100%" cellpadding="0" cellspacing="0">
