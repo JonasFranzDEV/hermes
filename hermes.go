@@ -70,6 +70,7 @@ type Body struct {
 	Signature    string   // Signature for the contacted person (default to 'Yours truly')
 	Title        string   // Title replaces the greeting+name when set
 	FreeMarkdown Markdown // Free markdown content that replaces all content other than header and footer
+	LDJSON		 string
 }
 
 // ToHTML converts Markdown to HTML
